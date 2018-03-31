@@ -1,0 +1,9 @@
+Temp/
+Library/
+.vs/
+
+*.unityproj
+*.csproj
+*.suo
+*.sln
+*.user
