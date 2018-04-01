@@ -8,7 +8,8 @@ public class TileHolder : MonoBehaviour {
     public float Width { private set; get; }
     public float Height { private set; get; }
 
-    private void Start () {
+    public void Init ()
+    {
         _sr = GetComponent<SpriteRenderer>();
         float width = _sr.sprite.bounds.size.x;
         float height = _sr.sprite.bounds.size.y;
@@ -25,6 +26,9 @@ public class TileHolder : MonoBehaviour {
 
         transform.localScale = new Vector3(scaleX, scaleY);
         transform.localPosition = new Vector3(listR.xMax + Width/2, listR.yMin + Height/2);
+
+        BoxCollider2D colldier = GetComponent<BoxCollider2D>();
+        colldier.size = new Vector2(Width / scaleX, Height / scaleY);
     }
 	
 }

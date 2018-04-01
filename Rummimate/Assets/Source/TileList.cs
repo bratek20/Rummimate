@@ -11,7 +11,8 @@ public class TileList : MonoBehaviour {
 
     private Colors _currentColor = Colors.Yellow;
     private List<TileSpawner> _spawners = new List<TileSpawner>();
-	void Start () {
+	public void Init()
+    {
         var tileRect = TileSpawnerPrefab.GetComponent<RectTransform>();
         tileRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Content.rect.width);
         float tileHeight = tileRect.rect.height;
