@@ -5,18 +5,26 @@ using UnityEngine;
 public class TileHolder : MonoBehaviour {
 
     private SpriteRenderer _sr;
-	private void Awake () {
+
+    public float HeightScale = 0.66f;
+    public float Width { private set; get; }
+    public float Height { private set; get; }
+
+    private void Start () {
         _sr = GetComponent<SpriteRenderer>();
         float width = _sr.sprite.bounds.size.x;
         float height = _sr.sprite.bounds.size.y;
-        Debug.Log("w: " + width + ", h: " + height);
 
         Rect camR = Utils.CameraRect();
-        Debug.Log("w: " + camR.width + ", h: " + camR.height);
+        Rect listR = Board.Get().TileList.CalculateWorldRect();
+
+        Width = camR.width - listR.width;
+        float scaleX = Width / width;
+        float scaleY = scaleX * HeightScale;
+        Height = height * scaleY;
+
+        transform.localScale = new Vector3(scaleX, scaleY);
+        transform.localPosition = new Vector3(listR.xMax + Width/2, listR.yMin + Height/2);
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
