@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 212431780980235688}
   - component: {fileID: 114168052442420636}
   - component: {fileID: 61552016741505446}
+  - component: {fileID: 50937992320695230}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -103,6 +104,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005953145388898}
   m_Mesh: {fileID: 0}
+--- !u!50 &50937992320695230
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1454284245929096}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61552016741505446
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -112,7 +133,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
