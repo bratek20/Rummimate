@@ -14,6 +14,8 @@ public class Board : MonoBehaviour {
         _instance = this;
     }
 
+    public TileList TileList;
+    public TileHolder TileHolder;
     public GameObject TilePrefab;
     public void AddTile(TileData data)
     {

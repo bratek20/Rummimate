@@ -14,4 +14,17 @@ public class Utils {
         pos.z = 0;
         return pos;
     }
+
+    public static Rect ToWorldRect(Rect screenRect)
+    {
+        Vector3 topLeft = ToWorldPoint(new Vector3(screenRect.xMin, screenRect.yMin));
+        Vector3 bottomRight = ToWorldPoint(new Vector3(screenRect.width, screenRect.height));
+        return new Rect(topLeft, bottomRight - topLeft);
+    }
+
+    public static Rect CameraRect()
+    {
+        var pixelRect = Camera.main.pixelRect;
+        return ToWorldRect(pixelRect);
+    }
 }

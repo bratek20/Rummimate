@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TileDeleter : MonoBehaviour {
-    [SerializeField]
-    private TileList _tileList; 
 	// Use this for initialization
 	void Start () {
         BoxCollider2D colldier = GetComponent<BoxCollider2D>();
-        Rect worldRect = _tileList.CalculateWorldRect();
+        Rect worldRect = Board.Get().TileList.CalculateWorldRect();
 
         colldier.size = new Vector2(worldRect.width, worldRect.height);
         transform.position = new Vector3(worldRect.center.x, worldRect.center.y);
