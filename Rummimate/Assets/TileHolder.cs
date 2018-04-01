@@ -5,8 +5,6 @@ using UnityEngine;
 public class TileHolder : MonoBehaviour {
 
     private SpriteRenderer _sr;
-
-    public float HeightScale = 0.66f;
     public float Width { private set; get; }
     public float Height { private set; get; }
 
@@ -17,11 +15,13 @@ public class TileHolder : MonoBehaviour {
 
         Rect camR = Utils.CameraRect();
         Rect listR = Board.Get().TileList.CalculateWorldRect();
+        float tileHeight = Board.Get().TilePrefab.GetComponent<SpriteRenderer>().bounds.size.y;
 
         Width = camR.width - listR.width;
         float scaleX = Width / width;
-        float scaleY = scaleX * HeightScale;
-        Height = height * scaleY;
+
+        Height = tileHeight * 2;
+        float scaleY = Height / height;
 
         transform.localScale = new Vector3(scaleX, scaleY);
         transform.localPosition = new Vector3(listR.xMax + Width/2, listR.yMin + Height/2);

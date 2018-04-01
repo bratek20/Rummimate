@@ -4,17 +4,18 @@ using TMPro;
 using UnityEngine;
 
 public class TileController : MonoBehaviour {
+
     private TextMeshPro _text;
+    private Vector3 _mouseOff;
     private void Awake()
     {
         _text = GetComponentInChildren<TextMeshPro>();
     }
-    // Use this for initialization
+
     public void Init(TileData data)
     {
         _text.color = data.GetColor();
         _text.text = data.Num.ToString();
-        //GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void SetPos(float x, float y)
@@ -24,38 +25,12 @@ public class TileController : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        //Debug.Log("MouseDown");
+        _mouseOff = transform.position - Utils.MousePos();
     }
 
     private void OnMouseDrag()
     {
-        var pos = Utils.MousePos();
+        var pos = Utils.MousePos() + _mouseOff;
         SetPos(pos.x, pos.y);
-    }
-
-    private void OnMouseUp()
-    {
-        //Debug.Log("MouseUp");
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("collision enter");
-    }
-
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        Debug.Log("collision exit");
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("trigger enter");
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("trigger exit");
     }
 }

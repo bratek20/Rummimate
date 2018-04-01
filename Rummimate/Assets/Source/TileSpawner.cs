@@ -28,6 +28,12 @@ public class TileSpawner : MonoBehaviour {
         Text.color = data.GetColor();
     }
 
+    public void ChangeColor(Colors c)
+    {
+        _data.Col = c;
+        Text.color = _data.GetColor();
+    }
+
     private void Spawn()
     {
         Board.Get().AddTile(_data);
