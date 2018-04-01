@@ -18,7 +18,7 @@ public class TileController : MonoBehaviour {
 
     public void SetPos(float x, float y)
     {
-        transform.localPosition = new Vector3(x, y);
+        transform.localPosition = new Vector3(x, y, -1);
     }
 
     private void OnMouseDown()
@@ -28,7 +28,8 @@ public class TileController : MonoBehaviour {
 
     private void OnMouseDrag()
     {
-        gameObject.transform.position = Utils.MousePos();
+        var pos = Utils.MousePos();
+        SetPos(pos.x, pos.y);
     }
 
     private void OnMouseUp()
