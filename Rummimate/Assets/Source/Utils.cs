@@ -5,9 +5,13 @@ using UnityEngine;
 public class Utils {
     public static Vector3 MousePos()
     {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return ToWorldPoint(Input.mousePosition);
+    }
+	
+    public static Vector3 ToWorldPoint(Vector3 screenPoint)
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(screenPoint);
         pos.z = 0;
         return pos;
     }
-	
 }

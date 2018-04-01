@@ -18,7 +18,14 @@ public class Board : MonoBehaviour {
     public void AddTile(TileData data)
     {
         var tile = Instantiate(TilePrefab, transform).GetComponent<TileController>();
-        tile.Init(data);
         tile.SetPos(0, 0);
+        tile.Init(data);
+    }
+
+    public void RemoveTile(TileController tile)
+    {
+        Debug.Log("Removing");
+
+        //Destroy(tile.gameObject);
     }
 }

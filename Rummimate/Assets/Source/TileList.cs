@@ -21,4 +21,18 @@ public class TileList : MonoBehaviour {
         }
 	}
 
+    public Rect CalculateWorldRect()
+    {
+        Vector3[] corners = new Vector3[4];
+        GetComponent<RectTransform>().GetWorldCorners(corners);
+        //Vector3 topLeft = Utils.ToWorldPoint(new Vector3(rect.xMin, rect.yMin));
+        //Vector3 bottomRight = Utils.ToWorldPoint(new Vector3(rect.xMax, rect.yMax));
+        //Rect worldRect = new Rect(topLeft, bottomRight - topLeft);
+
+        Vector3 topLeft = corners[0];
+        Vector3 bottomRight = corners[2];
+        // Rescale the size appropriately based on the current Canvas scale
+        return new Rect(topLeft, bottomRight - topLeft);
+    }
+
 }
