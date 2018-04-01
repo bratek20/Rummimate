@@ -14,7 +14,7 @@ public class TileController : MonoBehaviour {
     {
         _text.color = data.GetColor();
         _text.text = data.Num.ToString();
-        GetComponent<BoxCollider2D>().enabled = true;
+        //GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void SetPos(float x, float y)

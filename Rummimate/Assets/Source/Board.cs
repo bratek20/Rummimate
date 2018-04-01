@@ -24,8 +24,6 @@ public class Board : MonoBehaviour {
 
     public void RemoveTile(TileController tile)
     {
-        Debug.Log("Removing");
-
-        //Destroy(tile.gameObject);
+        Destroy(tile.gameObject);
     }
 }

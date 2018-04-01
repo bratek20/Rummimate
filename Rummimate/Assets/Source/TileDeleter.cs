@@ -10,8 +10,8 @@ public class TileDeleter : MonoBehaviour {
         BoxCollider2D colldier = GetComponent<BoxCollider2D>();
         Rect worldRect = _tileList.CalculateWorldRect();
 
-        transform.position = new Vector3(worldRect.center.x, worldRect.center.y);
         colldier.size = new Vector2(worldRect.width, worldRect.height);
+        transform.position = new Vector3(worldRect.center.x, worldRect.center.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
