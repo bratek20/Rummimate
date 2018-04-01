@@ -27,4 +27,12 @@ public class Utils {
         var pixelRect = Camera.main.pixelRect;
         return ToWorldRect(pixelRect);
     }
+
+    public static Vector3 GlobalCorner(RectTransform trans, int i)
+    {
+        Vector3[] coords = new Vector3[4];
+        trans.GetWorldCorners(coords);
+
+        return coords[i];
+    }
 }
