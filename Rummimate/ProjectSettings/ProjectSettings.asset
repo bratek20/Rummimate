@@ -583,7 +583,8 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Metro: 2
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 0
@@ -592,14 +593,14 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Rummimate
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: bratek20
+  metroCertificateIssuer: bratek20
+  metroCertificateNotAfter: 8023e7b496e9d401
   metroApplicationDescription: Rummimate
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: RummiMate
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0

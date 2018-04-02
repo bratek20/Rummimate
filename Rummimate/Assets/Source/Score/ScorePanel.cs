@@ -10,6 +10,7 @@ public class ScorePanel : MonoBehaviour {
         return _instance;
     }
 
+    public RectTransform ScrollContent;
     public RectTransform InnerPanel;
     public RectTransform PlayerPanelPrefab;
     public RectTransform Buttons;
@@ -90,7 +91,7 @@ public class ScorePanel : MonoBehaviour {
         }
 
         int[] scores = new int[_playerPanels.Count];
-        int maxScore = int.MinValue;
+        int minScore = int.MaxValue;
         int winnerI = -1;
         int sum = 0;
 
@@ -98,9 +99,9 @@ public class ScorePanel : MonoBehaviour {
         {
             scores[i] = _playerPanels[i].GetLastScore();
             sum += scores[i];
-            if ( maxScore < scores[i] )
+            if ( minScore > scores[i] )
             {
-                maxScore = scores[i];
+                minScore = scores[i];
                 winnerI = i;
             }
         }
@@ -111,13 +112,12 @@ public class ScorePanel : MonoBehaviour {
             {
                 continue;
             }
-            _playerPanels[i].AddLine(scores[i]);
+            _playerPanels[i].AddLine(-scores[i]);
         }
 
-        int reward = -(sum - scores[winnerI]);
-        int penalty = scores[winnerI];
-        penalty = penalty > 0 ? 0 : penalty;
-        _playerPanels[winnerI].AddLine(reward + penalty);
+        int reward = sum - scores[winnerI]; // sum of losers
+        int penalty = scores[winnerI]; // my penalty (almost always is zero)
+        _playerPanels[winnerI].AddLine(reward - penalty);
         _lines++;
     }
 
@@ -152,6 +152,9 @@ public class ScorePanel : MonoBehaviour {
         float panelWidth = PlayerPanelPrefab.rect.width;
         float width = _playerPanels.Count * panelWidth;
         InnerPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+
+        float scrollWidth = width + Buttons.rect.width;
+        ScrollContent.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal, scrollWidth);
 
         var pos = Utils.GlobalCorner(InnerPanel, 2);
         Buttons.transform.position = new Vector3(pos.x, pos.y, 0);

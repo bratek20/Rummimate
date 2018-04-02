@@ -35,4 +35,12 @@ public class Utils {
 
         return coords[i];
     }
+
+    public static Vector3 LocalCorner(RectTransform trans, int i)
+    {
+        Vector3[] coords = new Vector3[4];
+        trans.GetLocalCorners(coords);
+
+        return coords[i];
+    }
 }

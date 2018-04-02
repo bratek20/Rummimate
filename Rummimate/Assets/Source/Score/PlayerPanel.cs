@@ -90,21 +90,16 @@ public class PlayerPanel : MonoBehaviour {
         }
 
         string str = lastLine.text;
-        int sign = str.Contains("-") ? -1 : 1;
-        string toNum = Regex.Replace(str, "[^0-9.]", "");
-        if(toNum == "")
-        {
-            toNum = "0";
-        }
-
-        return sign * int.Parse(toNum);
+        int res;
+        int.TryParse(str, out res);
+        return res;
     }
 
     private void SetLastScore(int roundScore)
     {
         _sums.Add(GetSum() + roundScore);
         var lastLine = LastLine();
-        lastLine.text = roundScore + " ( " + GetSum() + " )";
+        lastLine.text = GetSum() + " ( " + roundScore + " )";
     }
 
     private int LastRoundScore()
