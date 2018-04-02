@@ -5,10 +5,16 @@ using TMPro;
 using UnityEngine;
 
 public class PlayerPanel : MonoBehaviour {
-    public RectTransform Contest;
+    public RectTransform Content;
     public TMP_InputField ScoreLinePrefab;
     private List<TMP_InputField> _lines = new List<TMP_InputField>();
     private List<int> _sums = new List<int>();
+    private float _contentHeight;
+
+    private void Awake()
+    {
+        _contentHeight = Content.rect.height;    
+    }
 
     public void AddLine(int roundScore)
     {
@@ -19,8 +25,14 @@ public class PlayerPanel : MonoBehaviour {
             SetLastScore(roundScore);
         }
 
-        var line = Instantiate(ScoreLinePrefab, Contest);
+        var line = Instantiate(ScoreLinePrefab, Content);
         _lines.Add(line);
+
+        float curContentHeight = line.GetComponent<RectTransform>().rect.height * _lines.Count;
+        float contentY = Mathf.Max(curContentHeight - _contentHeight, 0f);
+
+        Content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, curContentHeight);
+        Content.transform.localPosition = new Vector3(0f, contentY);
     }
 
     public void AddEmptyLines(int num)

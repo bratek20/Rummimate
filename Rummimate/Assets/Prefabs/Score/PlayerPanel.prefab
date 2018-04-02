@@ -364,7 +364,7 @@ MonoBehaviour:
   m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be71f8ce062ead4883cac6664a91da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Contest: {fileID: 224080534787672372}
+  Content: {fileID: 224080534787672372}
   ScoreLinePrefab: {fileID: 114338905377808546, guid: 38e62b3eb5c0be84e9a62902fe5f7da0,
     type: 2}
 --- !u!114 &114724453936679226
@@ -723,8 +723,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000103541315}
-  m_SizeDelta: {x: 0, y: 881.6}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 283.51}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224163483407336846
 RectTransform:
@@ -742,7 +742,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.80252177}
-  m_AnchoredPosition: {x: 0, y: 0.38437462}
+  m_AnchoredPosition: {x: 0, y: 0.38437653}
   m_SizeDelta: {x: 0, y: 0.061000824}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224253446226473246
@@ -836,7 +836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.80252177}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.040000916}
+  m_AnchoredPosition: {x: 0, y: -0.040008545}
   m_SizeDelta: {x: 0, y: 0.08000183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224821051978258920
