@@ -19,8 +19,8 @@ public class ScorePanel : MonoBehaviour {
     public Button RemoveLineButton;
     public Button ClearButton;
 
-    private Vector3 _startInnerPos;
     private List<PlayerPanel> _playerPanels = new List<PlayerPanel>();
+    private int _lines = 0;
 
     private void Awake()
     {
@@ -28,7 +28,6 @@ public class ScorePanel : MonoBehaviour {
 
         AddListeners();
 
-        _startInnerPos = InnerPanel.transform.localPosition;
         RecalculateSize();
     }
 
@@ -58,25 +57,73 @@ public class ScorePanel : MonoBehaviour {
         float width = PlayerPanelPrefab.rect.width;
         var panel = Instantiate(PlayerPanelPrefab, InnerPanel).GetComponent<PlayerPanel>();
         _playerPanels.Add(panel);
+        panel.AddEmptyLines(_lines);
 
         RecalculateSize();
     }
 
     private void AddLine()
     {
+        if(_playerPanels.Count == 0)
+        {
+            return;
+        }
+
+        if(_lines > 0)
+        {
+            UpdateScore();
+        }
+        
         _playerPanels.ForEach(panel =>
         {
             panel.AddLine();
         });
+        _lines++;
 
+    }
+
+    private void UpdateScore()
+    {
+        int[] scores = new int[_playerPanels.Count];
+        int maxScore = int.MinValue;
+        int winnerI = -1;
+        int sum = 0;
+
+        for (int i = 0; i < scores.Length; i++ )
+        {
+            scores[i] = _playerPanels[i].GetLastScore();
+            sum += scores[i];
+            if (maxScore < scores[i])
+            {
+                maxScore = scores[i];
+                winnerI = i;
+            }
+        }
+
+        for(int i = 0; i < scores.Length; i++ )
+        {
+            if(i == winnerI)
+            {
+                continue;
+            }
+            _playerPanels[i].SetLastScore(scores[i], false);
+        }
+
+        _playerPanels[winnerI].SetLastScore(-sum + scores[winnerI], true);
     }
 
     private void RemoveLine()
     {
+        if(_lines == 0)
+        {
+            return;
+        }
+
         _playerPanels.ForEach(panel =>
         {
             panel.RemoveLine();
         });
+        _lines--;
     }
 
     private void Clear()
@@ -86,6 +133,7 @@ public class ScorePanel : MonoBehaviour {
             Destroy(panel.gameObject);
         });
 
+        _lines = 0;
         _playerPanels.Clear();
         RecalculateSize();
     }
