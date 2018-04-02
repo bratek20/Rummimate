@@ -58,7 +58,7 @@ public class ScorePanel : MonoBehaviour {
         RemovePlayerButton.onClick.AddListener(RemovePlayerHandler);
         ClearButton.onClick.AddListener(ClearHandler);
         AddLineButton.onClick.AddListener(AddLine);
-        RemoveLineButton.onClick.AddListener(RemoveLine);
+        RemoveLineButton.onClick.AddListener(RemoveLineHandler);
     }
 
     private void RemoveListeners()
@@ -67,7 +67,7 @@ public class ScorePanel : MonoBehaviour {
         RemovePlayerButton.onClick.RemoveListener(RemovePlayerHandler);
         ClearButton.onClick.RemoveListener(ClearHandler);
         AddLineButton.onClick.RemoveListener(AddLine);
-        RemoveLineButton.onClick.RemoveListener(RemoveLine);
+        RemoveLineButton.onClick.RemoveListener(RemoveLineHandler);
     }
 
     private void AddPlayerPanel()
@@ -226,6 +226,22 @@ public class ScorePanel : MonoBehaviour {
         data.Message = "Write player name and click Confirm button to remove that player";
         data.OnConfirm = RemovePlayerPanel;
         ConfirmDialog.Open(data);
+    }
+
+    private void RemoveLineHandler()
+    {
+        ConfirmData data = new ConfirmData();
+        data.Message = "Write \"Confirm\" and click Confirm button to remove last line";
+        data.OnConfirm = RemoveLineByConfirm;
+        ConfirmDialog.Open(data);
+    }
+
+    private void RemoveLineByConfirm(string answer)
+    {
+        if ( answer == "Confirm" || answer == "\"Confirm\"" )
+        {
+            RemoveLine();
+        }
     }
 }
 

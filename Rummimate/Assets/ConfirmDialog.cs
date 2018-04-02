@@ -40,7 +40,6 @@ public class ConfirmDialog : MonoBehaviour {
 
 	private void CloseHandler()
     {
-        Debug.Log("Close");
         Close();
     }
 
@@ -48,6 +47,7 @@ public class ConfirmDialog : MonoBehaviour {
     {
         _data = data;
         Message.text = data.Message;
+        Answer.text = "";
         gameObject.SetActive(true);
     }
 
