@@ -11,7 +11,13 @@ public class PlayerPanel : MonoBehaviour {
     private int _sum = 0;
 
     public void AddLine()
-    { 
+    {
+        var lastLine = LastLine();
+        if(lastLine)
+        {
+            lastLine.enabled = false;
+        }
+
         var line = Instantiate(ScoreLinePrefab, Contest);
         _lines.Add(line);
     }
@@ -21,7 +27,6 @@ public class PlayerPanel : MonoBehaviour {
         while(num-- > 0)
         {
             AddLine();
-            LastLine().text = "-";
         }
     }
 
@@ -54,6 +59,10 @@ public class PlayerPanel : MonoBehaviour {
         string str = lastLine.text;
         int sign = str.Contains("-") ? -1 : 1;
         string toNum = Regex.Replace(str, "[^0-9.]", "");
+        if(toNum == "")
+        {
+            toNum = "0";
+        }
 
         return sign * int.Parse(toNum);
     }
