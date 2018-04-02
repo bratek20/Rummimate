@@ -21,6 +21,8 @@ public class ScorePanel : MonoBehaviour {
     public Button RemoveLineButton;
     public Button ClearButton;
 
+    public ConfirmDialog ConfirmDialog;
+
     private List<PlayerPanel> _playerPanels = new List<PlayerPanel>();
     private int _lines = 0;
 
@@ -29,6 +31,14 @@ public class ScorePanel : MonoBehaviour {
         _instance = this;
 
         AddListeners();
+
+        var corutine = LateInit(0.01f);
+        StartCoroutine(corutine);
+    }
+
+    private IEnumerator LateInit(float waitSec)
+    {
+        yield return new WaitForSeconds(waitSec);
 
         LoadScores();
 
@@ -45,8 +55,8 @@ public class ScorePanel : MonoBehaviour {
     private void AddListeners()
     {
         AddPlayerButton.onClick.AddListener(AddPlayerPanel);
-        RemovePlayerButton.onClick.AddListener(RemovePlayerPanel);
-        ClearButton.onClick.AddListener(Clear);
+        RemovePlayerButton.onClick.AddListener(RemovePlayerHandler);
+        ClearButton.onClick.AddListener(ClearHandler);
         AddLineButton.onClick.AddListener(AddLine);
         RemoveLineButton.onClick.AddListener(RemoveLine);
     }
@@ -54,8 +64,8 @@ public class ScorePanel : MonoBehaviour {
     private void RemoveListeners()
     {
         AddPlayerButton.onClick.RemoveListener(AddPlayerPanel);
-        RemovePlayerButton.onClick.RemoveListener(RemovePlayerPanel);
-        ClearButton.onClick.RemoveListener(Clear);
+        RemovePlayerButton.onClick.RemoveListener(RemovePlayerHandler);
+        ClearButton.onClick.RemoveListener(ClearHandler);
         AddLineButton.onClick.RemoveListener(AddLine);
         RemoveLineButton.onClick.RemoveListener(RemoveLine);
     }
@@ -69,18 +79,19 @@ public class ScorePanel : MonoBehaviour {
         RecalculateSize();
     }
 
-    private void RemovePlayerPanel()
+    private void RemovePlayerPanel(string name)
     {
-        if(_playerPanels.Count == 0)
+        var panel = _playerPanels.Find(p =>
         {
-            return;
+            return p.Name.text == name;
+        });
+
+        if ( panel != null )
+        {
+            _playerPanels.Remove(panel);
+            Destroy(panel.gameObject);
+            RecalculateSize();
         }
-
-        var lastPanel = _playerPanels[_playerPanels.Count - 1];
-        _playerPanels.RemoveAt(_playerPanels.Count - 1);
-        Destroy(lastPanel.gameObject);
-
-        RecalculateSize();
     }
 
     private void AddLine()
@@ -153,8 +164,8 @@ public class ScorePanel : MonoBehaviour {
         float width = _playerPanels.Count * panelWidth;
         InnerPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
 
-        float scrollWidth = width + Buttons.rect.width;
-        ScrollContent.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal, scrollWidth);
+        float scrollWidth = width + 2 * Buttons.rect.width;
+        ScrollContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scrollWidth);      
 
         var pos = Utils.GlobalCorner(InnerPanel, 2);
         Buttons.transform.position = new Vector3(pos.x, pos.y, 0);
@@ -178,8 +189,6 @@ public class ScorePanel : MonoBehaviour {
             _playerPanels[_playerPanels.Count - 1].LoadData(pData);
         });
         _lines = scoreData.Lines;
-
-        Debug.Log("Data loaded");
     }
 
     private void SaveScores()
@@ -193,8 +202,30 @@ public class ScorePanel : MonoBehaviour {
 
         string dataAsJson = JsonUtility.ToJson(scoreData);
         PlayerPrefs.SetString(DATA_KEY, dataAsJson);
+    }
 
-        Debug.Log("Data saved");
+    private void ClearHandler()
+    {
+        ConfirmData data = new ConfirmData();
+        data.Message = "Write \"Confirm\" and click Confirm button to clear all players";
+        data.OnConfirm = ClearByConfirm;
+        ConfirmDialog.Open(data);
+    }
+
+    private void ClearByConfirm(string answer)
+    {
+        if(answer == "Confirm" || answer == "\"Confirm\"" )
+        {
+            Clear();
+        }
+    }
+
+    private void RemovePlayerHandler()
+    {
+        ConfirmData data = new ConfirmData();
+        data.Message = "Write player name and click Confirm button to remove that player";
+        data.OnConfirm = RemovePlayerPanel;
+        ConfirmDialog.Open(data);
     }
 }
 
