@@ -15,6 +15,7 @@ public class ScorePanel : MonoBehaviour {
     public RectTransform Buttons;
 
     public Button AddPlayerButton;
+    public Button RemovePlayerButton;
     public Button AddLineButton;
     public Button RemoveLineButton;
     public Button ClearButton;
@@ -39,6 +40,7 @@ public class ScorePanel : MonoBehaviour {
     private void AddListeners()
     {
         AddPlayerButton.onClick.AddListener(AddPlayerPanel);
+        RemovePlayerButton.onClick.AddListener(RemovePlayerPanel);
         ClearButton.onClick.AddListener(Clear);
         AddLineButton.onClick.AddListener(AddLine);
         RemoveLineButton.onClick.AddListener(RemoveLine);
@@ -47,6 +49,7 @@ public class ScorePanel : MonoBehaviour {
     private void RemoveListeners()
     {
         AddPlayerButton.onClick.RemoveListener(AddPlayerPanel);
+        RemovePlayerButton.onClick.RemoveListener(RemovePlayerPanel);
         ClearButton.onClick.RemoveListener(Clear);
         AddLineButton.onClick.RemoveListener(AddLine);
         RemoveLineButton.onClick.RemoveListener(RemoveLine);
@@ -54,10 +57,23 @@ public class ScorePanel : MonoBehaviour {
 
     private void AddPlayerPanel()
     {
-        float width = PlayerPanelPrefab.rect.width;
         var panel = Instantiate(PlayerPanelPrefab, InnerPanel).GetComponent<PlayerPanel>();
         _playerPanels.Add(panel);
         panel.AddEmptyLines(_lines);
+
+        RecalculateSize();
+    }
+
+    private void RemovePlayerPanel()
+    {
+        if(_playerPanels.Count == 0)
+        {
+            return;
+        }
+
+        var lastPanel = _playerPanels[_playerPanels.Count - 1];
+        _playerPanels.RemoveAt(_playerPanels.Count - 1);
+        Destroy(lastPanel.gameObject);
 
         RecalculateSize();
     }
