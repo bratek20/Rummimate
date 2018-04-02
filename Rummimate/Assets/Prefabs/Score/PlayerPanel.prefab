@@ -581,6 +581,7 @@ MonoBehaviour:
   Content: {fileID: 224080534787672372}
   ScoreLinePrefab: {fileID: 114338905377808546, guid: 38e62b3eb5c0be84e9a62902fe5f7da0,
     type: 2}
+  Name: {fileID: 114661338392218008}
 --- !u!114 &114724453936679226
 MonoBehaviour:
   m_ObjectHideFlags: 1

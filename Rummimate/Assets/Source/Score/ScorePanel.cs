@@ -29,11 +29,15 @@ public class ScorePanel : MonoBehaviour {
 
         AddListeners();
 
+        LoadScores();
+
         RecalculateSize();
     }
 
     private void OnDestroy()
     {
+        SaveScores();
+
         RemoveListeners();
     }
 
@@ -152,4 +156,43 @@ public class ScorePanel : MonoBehaviour {
         var pos = Utils.GlobalCorner(InnerPanel, 2);
         Buttons.transform.position = new Vector3(pos.x, pos.y, 0);
     }
+
+    private const string DATA_KEY = "LastScores";
+    private void LoadScores()
+    {
+        Clear();
+
+        string dataAsJson = PlayerPrefs.GetString(DATA_KEY, "");
+        if(dataAsJson=="")
+        {
+            return;
+        }
+
+        ScoreData scoreData = JsonUtility.FromJson<ScoreData>(dataAsJson);
+        scoreData.PlayerData.ForEach(pData =>
+        {
+            AddPlayerPanel();
+            _playerPanels[_playerPanels.Count - 1].LoadData(pData);
+        });
+        _lines = scoreData.Lines;
+
+        Debug.Log("Data loaded");
+    }
+
+    private void SaveScores()
+    {
+        ScoreData scoreData = new ScoreData();
+        scoreData.Lines = _lines;
+        _playerPanels.ForEach(player =>
+        {
+            scoreData.PlayerData.Add(player.GetData());
+        });
+
+        string dataAsJson = JsonUtility.ToJson(scoreData);
+        PlayerPrefs.SetString(DATA_KEY, dataAsJson);
+
+        Debug.Log("Data saved");
+    }
 }
+
+

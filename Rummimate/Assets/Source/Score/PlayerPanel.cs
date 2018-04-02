@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine;
 public class PlayerPanel : MonoBehaviour {
     public RectTransform Content;
     public TMP_InputField ScoreLinePrefab;
+    public TMP_InputField Name;
+
     private List<TMP_InputField> _lines = new List<TMP_InputField>();
     private List<int> _sums = new List<int>();
     private float _contentHeight;
@@ -14,6 +17,14 @@ public class PlayerPanel : MonoBehaviour {
     private void Awake()
     {
         _contentHeight = Content.rect.height;    
+    }
+
+    private TMP_InputField CreateLine()
+    {
+        var line = Instantiate(ScoreLinePrefab, Content);
+        _lines.Add(line);
+
+        return line;
     }
 
     public void AddLine(int roundScore)
@@ -25,8 +36,7 @@ public class PlayerPanel : MonoBehaviour {
             SetLastScore(roundScore);
         }
 
-        var line = Instantiate(ScoreLinePrefab, Content);
-        _lines.Add(line);
+        var line = CreateLine();
 
         float curContentHeight = line.GetComponent<RectTransform>().rect.height * _lines.Count;
         float contentY = Mathf.Max(curContentHeight - _contentHeight, 0f);
@@ -111,6 +121,16 @@ public class PlayerPanel : MonoBehaviour {
         return _sums[size-1] - _sums[size-2];
     }
 
+    private void Clear()
+    {
+        _sums.Clear();
+        _lines.ForEach(line =>
+        {
+            Destroy(line.gameObject);
+        });
+        _lines.Clear();
+    }
+
     public int GetSum()
     {
         int size = _sums.Count;
@@ -119,5 +139,31 @@ public class PlayerPanel : MonoBehaviour {
             return 0;
         }
         return _sums[size-1];
+    }
+
+    public PlayerData GetData()
+    {
+        PlayerData playerData = new PlayerData();
+        playerData.Name = Name.text;
+        playerData.Sums = _sums;
+        _lines.ForEach(line =>
+        {
+            playerData.Lines.Add(line.text);
+        });
+
+        return playerData;
+    }
+
+    public void LoadData(PlayerData playerData)
+    {
+        Clear();
+
+        Name.text = playerData.Name;
+        _sums = playerData.Sums;
+        playerData.Lines.ForEach(lineStr =>
+        {
+            var line = CreateLine();
+            line.text = lineStr;
+        });
     }
 }
