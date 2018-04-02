@@ -8,14 +8,15 @@ public class PlayerPanel : MonoBehaviour {
     public RectTransform Contest;
     public TMP_InputField ScoreLinePrefab;
     private List<TMP_InputField> _lines = new List<TMP_InputField>();
-    private int _sum = 0;
+    private List<int> _sums = new List<int>();
 
-    public void AddLine()
+    public void AddLine(int roundScore)
     {
         var lastLine = LastLine();
         if(lastLine)
         {
             lastLine.enabled = false;
+            SetLastScore(roundScore);
         }
 
         var line = Instantiate(ScoreLinePrefab, Contest);
@@ -26,16 +27,26 @@ public class PlayerPanel : MonoBehaviour {
     {
         while(num-- > 0)
         {
-            AddLine();
+            AddLine(0);
         }
     }
 
     public void RemoveLine()
     {
-        if (_lines.Count > 0)
+        if ( _lines.Count == 0 )
         {
-            Destroy(_lines[_lines.Count - 1].gameObject);
-            _lines.RemoveAt(_lines.Count - 1);
+            return;
+        }
+
+        Destroy(_lines[_lines.Count - 1].gameObject);
+        _lines.RemoveAt(_lines.Count - 1);
+
+        var lastLine = LastLine();
+        if(lastLine != null)
+        {
+            lastLine.enabled = true;
+            lastLine.text = LastRoundScore().ToString();
+            _sums.RemoveAt(_sums.Count - 1);
         }
     }
 
@@ -67,15 +78,34 @@ public class PlayerPanel : MonoBehaviour {
         return sign * int.Parse(toNum);
     }
 
-    public void SetLastScore(int roundScore, bool winner)
+    private void SetLastScore(int roundScore)
     {
-        _sum += roundScore;
+        _sums.Add(GetSum() + roundScore);
         var lastLine = LastLine();
-        lastLine.text = roundScore + " ( " + _sum + " )";
+        lastLine.text = roundScore + " ( " + GetSum() + " )";
+    }
+
+    private int LastRoundScore()
+    {
+        int size = _sums.Count;
+        if(size == 0)
+        {
+            return 0;
+        }
+        if(size == 1 )
+        {
+            return _sums[0];
+        }
+        return _sums[size-1] - _sums[size-2];
     }
 
     public int GetSum()
     {
-        return _sum;
+        int size = _sums.Count;
+        if(size==0)
+        {
+            return 0;
+        }
+        return _sums[size-1];
     }
 }

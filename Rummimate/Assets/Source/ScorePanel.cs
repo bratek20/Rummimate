@@ -69,47 +69,36 @@ public class ScorePanel : MonoBehaviour {
             return;
         }
 
-        if(_lines > 0)
-        {
-            UpdateScore();
-        }
-        
-        _playerPanels.ForEach(panel =>
-        {
-            panel.AddLine();
-        });
-        _lines++;
-
-    }
-
-    private void UpdateScore()
-    {
         int[] scores = new int[_playerPanels.Count];
         int maxScore = int.MinValue;
         int winnerI = -1;
         int sum = 0;
 
-        for (int i = 0; i < scores.Length; i++ )
+        for ( int i = 0; i < scores.Length; i++ )
         {
             scores[i] = _playerPanels[i].GetLastScore();
             sum += scores[i];
-            if (maxScore < scores[i])
+            if ( maxScore < scores[i] )
             {
                 maxScore = scores[i];
                 winnerI = i;
             }
         }
 
-        for(int i = 0; i < scores.Length; i++ )
+        for ( int i = 0; i < scores.Length; i++ )
         {
-            if(i == winnerI)
+            if ( i == winnerI )
             {
                 continue;
             }
-            _playerPanels[i].SetLastScore(scores[i], false);
+            _playerPanels[i].AddLine(scores[i]);
         }
 
-        _playerPanels[winnerI].SetLastScore(-sum + scores[winnerI], true);
+        int reward = -(sum - scores[winnerI]);
+        int penalty = scores[winnerI];
+        penalty = penalty > 0 ? 0 : penalty;
+        _playerPanels[winnerI].AddLine(reward + penalty);
+        _lines++;
     }
 
     private void RemoveLine()
