@@ -25,7 +25,7 @@ public class TileController : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        _mouseOff = transform.position - Utils.MousePos();
+        _mouseOff = transform.localPosition - Utils.MousePos();
     }
 
     private void OnMouseDrag()
