@@ -13,8 +13,7 @@ public class Timer : MonoBehaviour {
     public TMP_InputField Seconds;
 
     public AudioSource EndTimeSound;
-    public AudioSource Beep5Second;
-    public AudioSource Beep10Second;
+    public AudioSource BeepSound;
 
     private const string SAVE_TIME_KEY = "SaveTime";
     private float _savedTime = 0;
@@ -100,8 +99,9 @@ public class Timer : MonoBehaviour {
             float prev = _curTime;
             _curTime -= Time.deltaTime;
 
-            CheckBeep(prev, _curTime, 5, Beep5Second);
-            CheckBeep(prev, _curTime, 10, Beep10Second);
+            CheckBeep(prev, _curTime, 4.5f);
+            CheckBeep(prev, _curTime, 5);
+            CheckBeep(prev, _curTime, 10);
 
             if (_curTime < 0)
             {
@@ -124,11 +124,11 @@ public class Timer : MonoBehaviour {
         Seconds.text = seconds.ToString();
     }
 
-    private void CheckBeep(float prev, float cur, float sec, AudioSource beepSound)
+    private void CheckBeep(float prev, float cur, float sec)
     {
         if(prev>=sec && sec >= cur)
         {
-            beepSound.Play();
+            BeepSound.Play();
         }
     }
 
