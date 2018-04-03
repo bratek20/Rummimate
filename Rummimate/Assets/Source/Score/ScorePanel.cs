@@ -207,14 +207,15 @@ public class ScorePanel : MonoBehaviour {
     private void ClearHandler()
     {
         ConfirmData data = new ConfirmData();
-        data.Message = "Write \"Confirm\" and click Confirm button to clear all players";
+        data.Message = "Napisz \"Confirm\" i kliknij przycisk Confirm by usunac wszystkich graczy";
         data.OnConfirm = ClearByConfirm;
         ConfirmDialog.Open(data);
     }
 
     private void ClearByConfirm(string answer)
     {
-        if(answer == "Confirm" || answer == "\"Confirm\"" )
+        string lowerAns = answer.ToLower();
+        if( lowerAns == "confirm" || lowerAns == "\"confirm\"" )
         {
             Clear();
         }
@@ -223,7 +224,7 @@ public class ScorePanel : MonoBehaviour {
     private void RemovePlayerHandler()
     {
         ConfirmData data = new ConfirmData();
-        data.Message = "Write player name and click Confirm button to remove that player";
+        data.Message = "Wpisz imie gracza i nacisnij przycisk Confirm by go usunac";
         data.OnConfirm = RemovePlayerPanel;
         ConfirmDialog.Open(data);
     }
@@ -231,7 +232,7 @@ public class ScorePanel : MonoBehaviour {
     private void RemoveLineHandler()
     {
         ConfirmData data = new ConfirmData();
-        data.Message = "Write \"Confirm\" and click Confirm button to remove last line";
+        data.Message = "Napisz \"Confirm\" i kliknij przycisk Confirm by usunac ostatnia linie";
         data.OnConfirm = RemoveLineByConfirm;
         ConfirmDialog.Open(data);
     }

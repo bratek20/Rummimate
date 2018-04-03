@@ -19,7 +19,22 @@ public class Timer : MonoBehaviour {
     private const string SAVE_TIME_KEY = "SaveTime";
     private float _savedTime = 0;
     private float _curTime = 0;
-    public bool IsOn { private set; get; }
+
+    private bool _isOn = false;
+    public bool IsOn
+    {
+        private set
+        {
+            _isOn = value;
+            Minutes.enabled = !value;
+            Seconds.enabled = !value;
+        }
+        get
+        {
+            return _isOn;
+        }
+    }
+
 
     private void Awake()
     {
