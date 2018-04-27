@@ -36,9 +36,13 @@ public class PlayerPanel : MonoBehaviour {
             SetLastScore(roundScore);
         }
 
-        var line = CreateLine();
+        CreateLine();
+        UpdateContentSize();
+    }
 
-        float curContentHeight = line.GetComponent<RectTransform>().rect.height * _lines.Count;
+    private void UpdateContentSize()
+    {
+        float curContentHeight = ScoreLinePrefab.GetComponent<RectTransform>().rect.height * (_lines.Count + 1);
         float contentY = Mathf.Max(curContentHeight - _contentHeight, 0f);
 
         Content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, curContentHeight);
@@ -160,5 +164,7 @@ public class PlayerPanel : MonoBehaviour {
             var line = CreateLine();
             line.text = lineStr;
         });
+
+        UpdateContentSize();
     }
 }
